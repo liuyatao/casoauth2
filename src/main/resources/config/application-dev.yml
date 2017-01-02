@@ -24,10 +24,10 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/casoauth2
+        url: jdbc:postgresql://localhost:5232/casoauth2
         name:
         username: casoauth2
-        password:
+        password: casoauth2
     jpa:
         database-platform: com.ohajda.casoauth2.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL

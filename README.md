@@ -1,4 +1,72 @@
-# casoauth2
+# CAS Oauth2 and JHipster app
+
+I am testing CAS Oauth2 with JHipster so I have created this repository to keep track what I have done. 
+
+
+## Building steps
+
+Here is summary of steps
+
+1. Create JHipster application
+    - Add entity CITY and configure sample data
+    - Start docker container as postgres development database
+    - Run initial application with development profile
+
+
+### 1. Create JHipster application
+
+    mkdir casoauth2
+    cd casoauth2
+    yo jhipster
+
+- Monolithic application
+- Type of authentication - select **OAuth2 Authentication**
+- PostgreSQL as production and development database
+- Maven
+
+#### Add entity CITY and configure sample data
+
+    yo jhipster:entity city
+
+2 attributes:
+
+- name
+- country
+
+
+Modify liquibase script to prepare initial sample data. Create file `src/main/resources/config/liquibase/cities.csv` with
+sample data. Create new changeset in `src/main/resources/config/liquibase/changelog/*added_entity_City.xml` to load data.
+
+
+#### Start docker container as postgres development database
+
+As I ma using few docker postgres containers I am running this one with port 5232
+
+    docker run --name pgdev2 -p 5232:5432 -e POSTGRES_USER=casoauth2 -d postgres:9.5.4
+
+in order to work with application there is need to change `src/main/resources/config/application-dev.yml`
+
+from:
+
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:postgresql://localhost:5432/casoauth2
+        name:
+        username: casoauth2
+        password:
+
+to:
+
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:postgresql://localhost:5232/casoauth2
+        name:
+        username: casoauth2
+        password: casoauth2
+
+
+
+## JHipster setup
 
 This application was generated using JHipster 3.12.2, you can find documentation and help at [https://jhipster.github.io/documentation-archive/v3.12.2](https://jhipster.github.io/documentation-archive/v3.12.2).
 
