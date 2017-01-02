@@ -11,7 +11,12 @@ Here is summary of steps
     - Add entity CITY and configure sample data
     - Start docker container as postgres development database
     - Run initial application with development profile
-
+2. CASifying application
+    - Enable SSL for JHipster application
+    - Configure CAS OAuth2 docker container
+    - Adjust JHipster to use CAS for authentication
+    - 
+    - 
 
 ### 1. Create JHipster application
 
@@ -63,6 +68,90 @@ to:
         name:
         username: casoauth2
         password: casoauth2
+
+### 2. CASifying application
+
+Here we modify application from step 1. to use CAS as OAuth2 SSO. This part I have done based on various examples from Github and Spring.
+For development purpose we will use docker container for CAS server and modify JHipster to use it.
+
+#### Enable SSL for JHipster application
+
+    keytool -genkey -noprompt\
+     -alias jhoauth2\
+     -keyalg RSA\
+     -validity 999\
+     -dname "CN=jhoauth2.ohajda.com, OU=Test, O=Test, L=Test, S=Test, C=SK"\
+     -keystore src/main/docker/keystore\
+     -storepass changeit\
+     -keypass changeit
+
+- change port in config file. I will set it to 8825. In addition I will set context path to **demo** for JHipster
+  application.
+
+Modify server section in `src/main/resources/config/application-dev.yml`
+
+From:
+
+    server:
+        port: 8080
+
+To:
+
+    server:
+        contextPath: /demo
+        port: 8825
+        ssl:
+            key-store: src/main/docker/keystore
+            key-password: changeit
+            key-store-password: changeit
+            enabled: true
+
+#### Configure CAS OAuth2 docker container
+
+For demo purpose CAS server will be modified to use JHipster database as user repository so we can keep using JHipster for
+user management and CAS for authentication. As I want to use database authentication I need to change `pom.xml` in overlay
+project and build it. As it take time I am creating `src/main/docker-cas` where I will prebuild image for this demo.
+
+Build docker image locally for cas (as of 5.0.1 there is still bug using BCrypt and database authentication so fix is done
+localy)
+
+    cd src/main/docker-cas
+    docker build -t rohajda/cas-oauth2:v5.0.1 .
+    cd ../../..
+
+Create thekeystore for CAS
+
+    keytool -genkey -noprompt\
+        -alias cas\
+        -keyalg RSA\
+        -validity 999\
+        -dname "CN=cas2.ohajda.com, OU=Test, O=Test, L=Test, S=Test, C=SK"\
+        -keystore src/main/docker/thekeystore \
+        -storepass changeit\
+        -keypass changeit
+
+Register certificate as trusted in java
+
+    keytool -export -alias cas -storepass changeit -file src/main/docker/cas2.cer -keystore  src/main/docker/thekeystore
+    sudo keytool -import -alias cas2 -keystore $JAVA_HOME/jre/lib/security/cacerts -file src/main/docker/cas2.cer 
+
+Add alias for localhost to hosts file
+
+- cas2.ohajda.com
+- jhoauth2.ohajda.com
+
+
+Run development CAS server
+
+    docker run --name cas -p 8843:8843 --link pgdev2:pgdev2\
+     -h cas2.ohajda.com\
+     -v $(pwd)/src/main/docker/thekeystore:/etc/cas/thekeystore \
+     -v $(pwd)/src/main/docker/dev/cas/config/cas.properties:/cas-overlay/etc/cas/config/cas.properties\
+     -v $(pwd)/src/main/docker/dev/cas/config/log4j2.xml:/cas-overlay/etc/cas/config/log4j2.xml\
+     -v $(pwd)/src/main/docker/dev/cas/services:/etc/cas/services\
+     rohajda/cas-oauth2:v5.0.1
+
+Adjust JHipster to use CAS OAuth2 for authentication
 
 
 

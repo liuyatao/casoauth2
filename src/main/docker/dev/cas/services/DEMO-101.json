@@ -1,0 +1,22 @@
+{
+    "@class" : "org.apereo.cas.services.RegexRegisteredService",
+    "serviceId" : "^(https)://.*",
+    "name" : "DEMO",
+    "id" : 101,
+    "description" : "Servise to authenticate users of CAS DEMO",
+    "evaluationOrder" : 10000,
+    "attributeReleasePolicy" : {
+        "@class" : "org.apereo.cas.services.ReturnAllowedAttributeReleasePolicy",
+        "allowedAttributes" : [ "java.util.ArrayList", [ "memberof", "email"] ]
+    },
+    "accessStrategy" : {
+        "@class" : "org.apereo.cas.services.DefaultRegisteredServiceAccessStrategy",
+        "enabled" : true,
+        "requireAllAttributes" : false,
+        "ssoEnabled" : true,
+        "requiredAttributes" : {
+            "@class" : "java.util.HashMap",
+            "memberof" : [ "java.util.HashSet", [ "ROLE_ADMIN", "ROLE_USER" ] ]
+        }
+    }
+}

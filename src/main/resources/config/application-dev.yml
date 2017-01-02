@@ -50,7 +50,13 @@ liquibase:
     contexts: dev
 
 server:
-    port: 8080
+    contextPath: /demo
+    port: 8825
+    ssl:
+        key-store: src/main/docker/keystore
+        key-password: changeit
+        key-store-password: changeit
+        enabled: true
 
 # ===================================================================
 # JHipster specific properties
