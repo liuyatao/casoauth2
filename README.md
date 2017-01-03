@@ -143,7 +143,7 @@ Add alias for localhost to hosts file
 
 Run development CAS server
 
-    docker run --name cas -p 8843:8843 --link pgdev2:pgdev2\
+    docker run --name cas2 -p 8843:8843 --link pgdev2:pgdev2\
      -h cas2.ohajda.com\
      -v $(pwd)/src/main/docker/thekeystore:/etc/cas/thekeystore \
      -v $(pwd)/src/main/docker/dev/cas/config/cas.properties:/cas-overlay/etc/cas/config/cas.properties\
