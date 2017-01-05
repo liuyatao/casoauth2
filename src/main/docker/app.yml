@@ -2,15 +2,24 @@ version: '2'
 services:
     casoauth2-app:
         image: casoauth2
-        external_links:
-            - casoauth2-postgresql:postgresql
+        hostname: jhoauth2
+        domainname: ohajda.com
+        links:
+            - casoauth2-postgresql:pgdb2
+            - casoauth2-cas:cas2.ohajda.com
         environment:
             - SPRING_PROFILES_ACTIVE=prod,swagger
-            - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/casoauth2
+            - SPRING_DATASOURCE_URL=jdbc:postgresql://pgdb2:5432/casoauth2
             - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
         ports:
-            - 8080:8080
+            - 8825:8825
     casoauth2-postgresql:
         extends:
             file: postgresql.yml
             service: casoauth2-postgresql
+    casoauth2-cas:
+        links:
+            - casoauth2-postgresql:pgdb2
+        extends:
+            file: cas.yml
+            service: casoauth2-cas

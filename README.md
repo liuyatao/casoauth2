@@ -153,6 +153,61 @@ Run development CAS server
 
 Adjust JHipster to use CAS OAuth2 for authentication
 
+    cas:
+        client:
+            clientId: clientid
+            clientSecret: clientSecret
+            accessTokenUri: https://cas2.ohajda.com:8843/cas/oauth2.0/accessToken
+            userAuthorizationUri: https://cas2.ohajda.com:8843/cas/oauth2.0/authorize
+            tokenName: access_token
+            authenticationScheme: query
+            clientAuthenticationScheme: form
+        resource:
+            userInfoUri: https://cas2.ohajda.com:8843/cas/oauth2.0/profile
+        url:
+            logout: https://cas2.ohajda.com:8843/cas/logout
+            service: https://jhoauth2.ohajda.com:8825/demo/
+
+Remove unused classess
+
+- AjaxLogoutSuccessHandler
+- OAuth2ServerConfiguration
+
+Remove from liquibase initial change log oauth2 related objects
+
+Modify classes and java script files
+
+- SecurityConfiguration.java
+- UserService.java
+- auth.service.js
+
+
+Add new logout controller (workaround as I did not manage to go around CORS related issues with redirect to CAS)
+
+- LogoutResource.java
+
+#### Run initial application with development profile
+
+Use **IntelliJ** run option or use command line from terminal `./mvnw`
+
+    https://jhoauth2.ohajda.com:8825/demo/
+
+Run production setup
+
+ - build first (i am skipping test as i did not have time to fix karma test)
+
+        mvn clean
+    
+        ./mvnw package -Pprod -DskipTests docker:build
+    
+
+ - start docker compose
+
+    docker-compose -f src/main/docker/app.yml up
+
+ - connect to application as **admin/admin**
+
+    https://jhoauth2.ohajda.com:8825/demo/
 
 
 ## JHipster setup

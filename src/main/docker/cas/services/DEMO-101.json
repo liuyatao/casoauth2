@@ -2,10 +2,10 @@
     "@class" : "org.apereo.cas.support.oauth.services.OAuthRegisteredService",
     "id" : 101,
     "name" : "OAuth2 Service for CASOAUTH2 application",
-    "serviceId" : "^(https|http)://localhost.*",
+    "serviceId" : "^(https)://jhoauth2.ohajda.com.*",
     "clientId": "clientid",
     "clientSecret": "clientSecret",
-    "bypassApprovalPrompt": false,
+    "bypassApprovalPrompt": true,
     "attributeReleasePolicy" : {
         "@class" : "org.apereo.cas.services.ReturnAllowedAttributeReleasePolicy",
         "allowedAttributes" : [ "java.util.ArrayList", [ "memberof", "email","displayName"] ]

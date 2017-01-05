@@ -85,3 +85,18 @@ jhipster:
             host: localhost
             port: 5000
             queueSize: 512
+
+cas:
+    client:
+        clientId: clientid
+        clientSecret: clientSecret
+        accessTokenUri: https://cas2.ohajda.com:8843/cas/oauth2.0/accessToken
+        userAuthorizationUri: https://cas2.ohajda.com:8843/cas/oauth2.0/authorize
+        tokenName: access_token
+        authenticationScheme: query
+        clientAuthenticationScheme: form
+    resource:
+        userInfoUri: https://cas2.ohajda.com:8843/cas/oauth2.0/profile
+    url:
+        logout: https://cas2.ohajda.com:8843/cas/logout
+        service: https://jhoauth2.ohajda.com:8825/demo/

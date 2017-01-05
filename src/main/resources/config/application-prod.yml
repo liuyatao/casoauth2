@@ -19,10 +19,10 @@ spring:
             enabled: false
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/casoauth2
+        url: jdbc:postgresql://pgdb2:5932/casoauth2
         name:
         username: casoauth2
-        password:
+        password: casoauth2
     jpa:
         database-platform: com.ohajda.casoauth2.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
@@ -43,7 +43,13 @@ liquibase:
     contexts: prod
 
 server:
-    port: 8080
+    contextPath: /demo
+    port: 8825
+    ssl:
+        key-store: keystore
+        key-password: changeit
+        key-store-password: changeit
+        enabled: true
     compression:
         enabled: true
         mime-types: text/html,text/xml,text/plain,text/css, application/javascript, application/json
@@ -79,3 +85,19 @@ jhipster:
             host: localhost
             port: 5000
             queueSize: 512
+
+
+cas:
+    client:
+        clientId: clientid
+        clientSecret: clientSecret
+        accessTokenUri: https://cas2.ohajda.com:8843/cas/oauth2.0/accessToken
+        userAuthorizationUri: https://cas2.ohajda.com:8843/cas/oauth2.0/authorize
+        tokenName: access_token
+        authenticationScheme: query
+        clientAuthenticationScheme: form
+    resource:
+        userInfoUri: https://cas2.ohajda.com:8843/cas/oauth2.0/profile
+    url:
+        logout: https://cas2.ohajda.com:8843/cas/logout
+        service: https://jhoauth2.ohajda.com:8825/demo/

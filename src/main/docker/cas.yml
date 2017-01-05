@@ -1,0 +1,14 @@
+version: '2'
+services:
+    casoauth2-cas:
+        container_name: casoauth2-cas
+        image: rohajda/cas-oauth2:v5.0.1
+        hostname: cas2
+        domainname: ohajda.com
+        volumes:
+            - ./thekeystore:/etc/cas/thekeystore
+            - ./cas/config/cas-prod.properties:/cas-overlay/etc/cas/config/cas.properties
+            - ./cas/config/log4j2.xml:/cas-overlay/etc/cas/config/log4j2.xml
+            - ./cas/services:/etc/cas/services
+        ports:
+            - 8843:8843
