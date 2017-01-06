@@ -2,7 +2,7 @@
     "@class" : "org.apereo.cas.support.oauth.services.OAuthRegisteredService",
     "id" : 101,
     "name" : "OAuth2 Service for CASOAUTH2 application",
-    "serviceId" : "^(https)://jhoauth2.ohajda.com.*",
+    "serviceId" : "^(https)://(jhoauth2|front).ohajda.com(:8825/demo/app|/demo/app).*",
     "clientId": "clientid",
     "clientSecret": "clientSecret",
     "bypassApprovalPrompt": true,

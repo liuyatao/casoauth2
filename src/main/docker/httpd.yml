@@ -1,0 +1,16 @@
+version: '2'
+services:
+    casoauth2-httpd:
+        container_name: casoauth2-httpd
+        image: rohajda/casoauth2-httpd:v1.0
+        command: apachectl -DFOREGROUND
+        ports:
+            - 443:443
+        hostname: front
+        domainname: ohajda.com
+        volumes:
+            - ./httpd/front.ohajda.com.crt:/etc/ssl/certs/front.ohajda.com.crt
+            - ./httpd/front.ohajda.com.key:/etc/pki/tls/private/front.ohajda.com.key
+            - ./httpd/conf.d/ssl.conf:/etc/httpd/conf.d/ssl.conf
+            - ./httpd/logs/:/etc/httpd/logs/
+            - ./httpd/conf.d/auth_cas.conf:/etc/httpd/conf.d/auth_cas.conf

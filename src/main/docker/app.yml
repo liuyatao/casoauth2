@@ -17,6 +17,13 @@ services:
         extends:
             file: postgresql.yml
             service: casoauth2-postgresql
+    casoauth2-httpd:
+        links:
+            - casoauth2-app:jhoauth2.ohajda.com
+            - casoauth2-cas:cas2.ohajda.com
+        extends:
+            file: httpd.yml
+            service: casoauth2-httpd
     casoauth2-cas:
         links:
             - casoauth2-postgresql:pgdb2
