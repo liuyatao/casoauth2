@@ -320,7 +320,7 @@ We are ready to test direct access and reverese proxy
 
 - Reverse proxy URL is https://front.ohajda.com/demo/
 
-![Reverse Proxy](docs/images/ReverseProxyAccess.gif)
+![Reverse Proxy](docs/images/ReverseProxyAccess2.gif)
 
 
 >Important to add is that user need to provide username/password only once at reverese proxy. Rest is taken care by SSO CAS
