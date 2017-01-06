@@ -316,7 +316,7 @@ We are ready to test direct access and reverese proxy
 
 - Direct access URL is https://jhoauth2.ohajda.com:8825/demo/
 
-![Direct Access](docs/images/DirectAccess.gif)
+![Direct Access](docs/images/DirectAccess2.gif)
 
 - Reverse proxy URL is https://front.ohajda.com/demo/
 
